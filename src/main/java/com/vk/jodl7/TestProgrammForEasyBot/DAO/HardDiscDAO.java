@@ -1,10 +1,10 @@
-//package com.vk.jodl7.TestProgrammForEasyBot.services;
+//package com.vk.jodl7.TestProgrammForEasyBot.DAO;
 //
 //import com.vk.jodl7.TestProgrammForEasyBot.models.HardDisc;
 //
 //import java.util.List;
 //
-//public interface HardDiscServices {
+//public interface HardDiscDAO {
 //    public List<HardDisc> showById();
 //    public HardDisc showAll(int id);
 //    public void save(HardDisc HardDisc);
