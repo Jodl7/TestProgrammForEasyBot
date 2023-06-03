@@ -1,4 +1,4 @@
-package com.vk.jodl7.TestProgrammForEasyBot;
+package com.vk.jodl7;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
