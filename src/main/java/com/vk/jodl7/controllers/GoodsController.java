@@ -36,7 +36,7 @@ public class GoodsController {
         return goodsService.findByProductType(productType);
     }
 
-    @PostMapping("/new")
+    @PostMapping("/create")
     public ResponseEntity<String> save(@RequestBody @Valid GoodsDTO goodsDTO) throws NotFoundException {
         goodsService.save(goodsDTO);
         return ResponseEntity.status(HttpStatus.OK).body("Product saved");
