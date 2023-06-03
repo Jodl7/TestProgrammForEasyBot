@@ -3,7 +3,6 @@ package com.vk.jodl7.services.impl;
 import com.vk.jodl7.dto.GoodsDTO;
 import com.vk.jodl7.exceptions.NotFoundException;
 import com.vk.jodl7.models.Goods;
-import com.vk.jodl7.models.ProductType;
 import com.vk.jodl7.models.UniqueProperties;
 import com.vk.jodl7.repositories.GoodsRepository;
 import com.vk.jodl7.services.GoodsService;
@@ -15,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -46,23 +44,12 @@ public class GoodsServiceImpl implements GoodsService {
 
     @Transactional(readOnly = true)
     public List<GoodsDTO> findByProductType(String productType) {
-        return goodsRepository.findByProductType(productType).stream()
-                .map(pro -> GoodsDTO.builder()
-                        .id(pro.getId())
-                        .manufacture(pro.getManufacture())
-                        .price(pro.getPrice())
-                        .productType(pro.getUniqueProperty().getProductType().getType())
-                        .serialNumber(pro.getSerialNumber())
-                        .stock(pro.getStock())
-                        .propertyName(pro.getUniqueProperty().getPropertyName())
-                        .propertyValue(pro.getUniqueProperty().getPropertyValue())
-                        .build())
-                .collect(Collectors.toList());
+        return goodsRepository.findByProductType(productType);
     }
 
     @Transactional
     public void save(GoodsDTO goods) throws NotFoundException {
-        UniqueProperties uniqueProperties = uniquePropertiesService.findByNameAndValueAndType(goods.getPropertyName(), goods.getPropertyValue(),goods.getProductType())
+        UniqueProperties uniqueProperties = uniquePropertiesService.findByNameAndValueAndType(goods.getPropertyName(), goods.getPropertyValue(), goods.getProductType())
                 .orElseThrow(() -> new NotFoundException("Unique property not found"));
         goodsRepository.save(Goods.builder()
                 .id(goods.getId())
