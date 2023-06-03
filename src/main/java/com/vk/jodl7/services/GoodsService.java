@@ -2,7 +2,6 @@ package com.vk.jodl7.services;
 
 import com.vk.jodl7.dto.GoodsDTO;
 import com.vk.jodl7.exceptions.NotFoundException;
-import com.vk.jodl7.models.Goods;
 
 import java.util.List;
 import java.util.Optional;

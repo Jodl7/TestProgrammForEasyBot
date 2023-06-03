@@ -1,6 +1,9 @@
 package com.vk.jodl7.exceptions;
 
-public class NotFoundException extends Exception{
+import lombok.Getter;
+
+@Getter
+public class NotFoundException extends Exception {
     private String message;
 
     public NotFoundException(String message) {
