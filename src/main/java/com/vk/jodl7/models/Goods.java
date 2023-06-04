@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
@@ -29,14 +30,19 @@ public class Goods {
     private Long id;
 
     @Column(unique = true)
+    @NotNull
     private String serialNumber;
 
+    @NotNull
     private String manufacture;
 
+    @NotNull
     private Double price;
 
+    @NotNull
     private Integer stock;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "unique_property_id", nullable = false)
     private UniqueProperties uniqueProperty;

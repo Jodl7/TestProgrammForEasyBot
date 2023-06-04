@@ -6,7 +6,6 @@ import com.vk.jodl7.models.Goods;
 import com.vk.jodl7.models.UniqueProperties;
 import com.vk.jodl7.repositories.GoodsRepository;
 import com.vk.jodl7.services.GoodsService;
-import com.vk.jodl7.services.ProductTypeService;
 import com.vk.jodl7.services.UniquePropertiesService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,7 +18,6 @@ import java.util.Optional;
 @Service
 public class GoodsServiceImpl implements GoodsService {
     private final GoodsRepository goodsRepository;
-    private final ProductTypeService productTypeService;
     private final UniquePropertiesService uniquePropertiesService;
 
     @Transactional(readOnly = true)
