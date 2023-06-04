@@ -43,7 +43,7 @@ public class GoodsController {
     }
 
     @PatchMapping("/update")
-    public ResponseEntity<String> update(@RequestBody GoodsDTO goodsDTO) throws NotFoundException {
+    public ResponseEntity<String> update(@RequestBody @Valid GoodsDTO goodsDTO) throws NotFoundException {
         goodsService.update(goodsDTO);
         return ResponseEntity.status(HttpStatus.OK).body("Product updated");
     }

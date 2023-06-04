@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @Getter
@@ -18,5 +19,6 @@ public class ProductTypeDTO {
     private Long id;
 
     @NotNull
+    @NotEmpty
     private String type;
 }
