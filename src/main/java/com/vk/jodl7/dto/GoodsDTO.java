@@ -32,10 +32,11 @@ public class GoodsDTO {
     private String manufacture;
 
     @NotNull
+    @Min(value = 0, message = "price cant be less than 0")
     private Double price;
 
     @NotNull
-    @Min(value = 0, message = "stack cant be less than 0")
+    @Min(value = 0, message = "stock cant be less than 0")
     private Integer stock;
 
     @NotNull
