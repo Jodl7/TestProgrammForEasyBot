@@ -3,9 +3,11 @@ package com.vk.jodl7.services.impl;
 import com.vk.jodl7.dto.GoodsDTO;
 import com.vk.jodl7.exceptions.NotFoundException;
 import com.vk.jodl7.models.Goods;
+import com.vk.jodl7.models.ProductType;
 import com.vk.jodl7.models.UniqueProperties;
 import com.vk.jodl7.repositories.GoodsRepository;
 import com.vk.jodl7.services.GoodsService;
+import com.vk.jodl7.services.ProductTypeService;
 import com.vk.jodl7.services.UniquePropertiesService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,7 @@ import java.util.Optional;
 public class GoodsServiceImpl implements GoodsService {
     private final GoodsRepository goodsRepository;
     private final UniquePropertiesService uniquePropertiesService;
+    private final ProductTypeService productTypeService;
 
     @Transactional(readOnly = true)
     public Optional<GoodsDTO> findById(Long id) throws NotFoundException {
@@ -47,8 +50,14 @@ public class GoodsServiceImpl implements GoodsService {
 
     @Transactional
     public void save(GoodsDTO goods) throws NotFoundException {
+        ProductType productType = productTypeService.findByProductType(goods.getProductType())
+                .orElseThrow(() -> new NotFoundException("Product type not found"));
         UniqueProperties uniqueProperties = uniquePropertiesService.findByNameAndValueAndType(goods.getPropertyName(), goods.getPropertyValue(), goods.getProductType())
-                .orElseThrow(() -> new NotFoundException("Unique property not found"));
+                .orElseGet(() -> UniqueProperties.builder()
+                        .propertyName(goods.getPropertyName())
+                        .propertyValue(goods.getPropertyValue())
+                        .productType(productType)
+                        .build());
         goodsRepository.save(Goods.builder()
                 .id(goods.getId())
                 .manufacture(goods.getManufacture())

@@ -1,5 +1,6 @@
 package com.vk.jodl7.services.impl;
 
+import com.vk.jodl7.dto.GoodsDTO;
 import com.vk.jodl7.models.UniqueProperties;
 import com.vk.jodl7.repositories.UniquePropertiesRepository;
 import com.vk.jodl7.services.UniquePropertiesService;
@@ -17,4 +18,14 @@ public class UniquePropertiesServiceImpl implements UniquePropertiesService {
     public Optional<UniqueProperties> findByNameAndValueAndType(String propertyName, String propertyValue, String productType) {
         return uniquePropertiesRepository.findByNameAndValueAndType(propertyName, propertyValue, productType);
     }
+
+    @Override
+    public void save(UniqueProperties uniqueProperties) {
+        uniquePropertiesRepository.save(UniqueProperties.builder()
+                .propertyName(uniqueProperties.getPropertyName())
+                .propertyValue(uniqueProperties.getPropertyValue())
+                .productType(uniqueProperties.getProductType())
+                .build());
+    }
+
 }
