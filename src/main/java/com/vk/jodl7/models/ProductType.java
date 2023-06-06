@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -20,7 +21,8 @@ import javax.validation.constraints.NotNull;
 @Table (name="product_type")
 public class ProductType {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "type_seq")
+    @SequenceGenerator(name = "type_seq", sequenceName = "seq_type", allocationSize = 10)
     private Long id;
 
     @NotNull
