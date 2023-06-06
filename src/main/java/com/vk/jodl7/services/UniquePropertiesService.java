@@ -8,6 +8,4 @@ import java.util.Optional;
 public interface UniquePropertiesService {
 
     Optional<UniqueProperties> findByNameAndValueAndType(String propertyName, String propertyValue, String productType);
-
-    void save (UniqueProperties uniqueProperties);
 }

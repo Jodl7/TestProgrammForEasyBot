@@ -37,8 +37,8 @@ public class GoodsController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<String> save(@RequestBody @Valid GoodsDTO goodsDTO) throws NotFoundException {
-        goodsService.save(goodsDTO);
+    public ResponseEntity<String> save(@RequestBody @Valid List<GoodsDTO> goodsDTO) throws NotFoundException {
+        goodsService.saveAll(goodsDTO);
         return ResponseEntity.status(HttpStatus.OK).body("Product saved");
     }
 

@@ -19,13 +19,4 @@ public class UniquePropertiesServiceImpl implements UniquePropertiesService {
         return uniquePropertiesRepository.findByNameAndValueAndType(propertyName, propertyValue, productType);
     }
 
-    @Override
-    public void save(UniqueProperties uniqueProperties) {
-        uniquePropertiesRepository.save(UniqueProperties.builder()
-                .propertyName(uniqueProperties.getPropertyName())
-                .propertyValue(uniqueProperties.getPropertyValue())
-                .productType(uniqueProperties.getProductType())
-                .build());
-    }
-
 }

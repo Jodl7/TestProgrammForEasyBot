@@ -11,7 +11,9 @@ public interface GoodsService {
 
     List<GoodsDTO> findByProductType(String productType);
 
-    void save(GoodsDTO goods) throws NotFoundException;
+    void saveAll(List<GoodsDTO> goodsDTO) throws NotFoundException;
+
+    void save(GoodsDTO goodsDTO) throws NotFoundException;
 
     void update(GoodsDTO goods) throws NotFoundException;
 }

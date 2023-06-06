@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -67,6 +68,34 @@ public class GoodsServiceImpl implements GoodsService {
                 .stock(goods.getStock())
                 .build());
     }
+
+    @Transactional
+    public void saveAll(List<GoodsDTO> goodsList) throws NotFoundException {
+        List<Goods> productList = new ArrayList<>();
+        for (GoodsDTO goods : goodsList
+        ) {
+            UniqueProperties uniqueProperties = uniquePropertiesService.findByNameAndValueAndType(goods.getPropertyName(), goods.getPropertyValue(), goods.getProductType())
+                    .orElseThrow(() -> new NotFoundException("Product type not found"));
+            productList.add(Goods.builder()
+                    .id(goods.getId())
+                    .manufacture(goods.getManufacture())
+                    .price(goods.getPrice())
+                    .serialNumber(goods.getSerialNumber())
+                    .uniqueProperty(uniqueProperties)
+                    .stock(goods.getStock())
+                    .build());
+        }
+        goodsRepository.saveAll(productList);
+//        goodsList.forEach(goods-> {
+//            try {
+//                save(goods);
+//            } catch (NotFoundException e) {
+//                e.printStackTrace();
+//            }
+//        });
+
+    }
+
 
     @Transactional
     public void update(GoodsDTO goods) throws NotFoundException {
