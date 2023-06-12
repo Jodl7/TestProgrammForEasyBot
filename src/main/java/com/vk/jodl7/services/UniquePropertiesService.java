@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface UniquePropertiesService {
 
-    Optional<UniqueProperties> findByNameAndValueAndType(String propertyName, String propertyValue, String productType);
+//    Optional<UniqueProperties> findByNameAndValueAndType(String propertyName, String propertyValue, String productType);
 
-    Optional<UniqueProperties> findByNameAndValueAndType(List<String> propertyName, List<String> propertyValue, List<String> productType);
+    List<UniqueProperties> findByNameAndValueAndType(List<String> propertyName, List<String> propertyValue, List<String> productType);
 }

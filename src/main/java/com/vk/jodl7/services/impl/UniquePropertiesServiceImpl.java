@@ -17,9 +17,7 @@ public class UniquePropertiesServiceImpl implements UniquePropertiesService {
 
     @Override
     public List<UniqueProperties> findByNameAndValueAndType(List<String> propertyName, List<String> propertyValue, List<String> productType) {
-        List<UniqueProperties> uniquelist = new ArrayList<>();
-        uniquelist = uniquePropertiesRepository.findByNameAndValueAndType(propertyName, propertyValue, productType);
-        return uniquelist;
+        return uniquePropertiesRepository.findByNameAndValueAndType(propertyName, propertyValue, productType);
     }
 
 }

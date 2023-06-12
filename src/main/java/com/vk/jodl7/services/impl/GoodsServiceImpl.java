@@ -76,12 +76,16 @@ public class GoodsServiceImpl implements GoodsService {
     public void saveAll(List<GoodsDTO> goodsList) throws NotFoundException {
         List<Goods> productList = new ArrayList<>();
         List<UniqueProperties> unique = new ArrayList<>();
-        for (GoodsDTO goods : goodsList
-        ) {
-            UniqueProperties uniqueProperties = uniquePropertiesService.findByNameAndValueAndType(goods.getPropertyName(), goods.getPropertyValue(), goods.getProductType())
-                    .orElseThrow(() -> new NotFoundException("Product type not found"));
-            unique.add(uniqueProperties);
+        List<String> propName = new ArrayList<>();
+        List<String> propVal = new ArrayList<>();
+        List<String> prodType = new ArrayList<>();
+        for (GoodsDTO goods : goodsList) {
+            propName.add(goods.getPropertyName());
+            propVal.add(goods.getPropertyValue());
+            prodType.add(goods.getProductType());
         }
+            unique = uniquePropertiesService.findByNameAndValueAndType(propName, propVal, prodType);
+
         int i = 0;
         for (GoodsDTO goods : goodsList
         ) {
