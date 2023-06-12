@@ -13,12 +13,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -74,33 +73,34 @@ public class GoodsServiceImpl implements GoodsService {
 
     @Transactional
     public void saveAll(List<GoodsDTO> goodsList) throws NotFoundException {
-        List<Goods> productList = new ArrayList<>();
-        List<UniqueProperties> unique = new ArrayList<>();
-        List<String> propName = new ArrayList<>();
-        List<String> propVal = new ArrayList<>();
-        List<String> prodType = new ArrayList<>();
-        for (GoodsDTO goods : goodsList) {
+
+        Set<String> propName = new HashSet<>();
+        Set<String> propVal = new HashSet<>();
+        Set<String> prodType = new HashSet<>();
+
+        goodsList.forEach(goods -> {
             propName.add(goods.getPropertyName());
             propVal.add(goods.getPropertyValue());
             prodType.add(goods.getProductType());
-        }
-            unique = uniquePropertiesService.findByNameAndValueAndType(propName, propVal, prodType);
+        });
+        List <UniqueProperties> unique = uniquePropertiesService.findByNameAndValueAndType(propName, propVal, prodType);
 
-        int i = 0;
-        for (GoodsDTO goods : goodsList
-        ) {
-            productList.add(Goods.builder()
-                    .id(goods.getId())
-                    .manufacture(goods.getManufacture())
-                    .price(goods.getPrice())
-                    .serialNumber(goods.getSerialNumber())
-                    .uniqueProperty(unique.get(i))
-                    .stock(goods.getStock())
-                    .build());
-            i++;
-        }
-        i = 0;
-        goodsRepository.saveAll(productList);
+        List<Goods> result = goodsList.stream()
+                .map(goodsDTO -> Goods.builder()
+                        .id(goodsDTO.getId())
+                        .manufacture(goodsDTO.getManufacture())
+                        .price(goodsDTO.getPrice())
+                        .serialNumber(goodsDTO.getSerialNumber())
+                        .uniqueProperty(unique.stream()
+                                .filter(unq -> unq.getPropertyName().equals(goodsDTO.getPropertyName()) &&
+                                        unq.getPropertyValue().equals(goodsDTO.getPropertyValue()) &&
+                                        unq.getProductType().getType().equals(goodsDTO.getProductType()))
+                                .findFirst()
+                                .orElseThrow())
+                        .stock(goodsDTO.getStock())
+                        .build())
+                .collect(Collectors.toList());
+        goodsRepository.saveAll(result);
     }
 
 
