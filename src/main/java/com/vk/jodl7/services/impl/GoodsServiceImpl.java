@@ -14,8 +14,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 
 @RequiredArgsConstructor
 @Service
@@ -72,28 +75,28 @@ public class GoodsServiceImpl implements GoodsService {
     @Transactional
     public void saveAll(List<GoodsDTO> goodsList) throws NotFoundException {
         List<Goods> productList = new ArrayList<>();
+        List<UniqueProperties> unique = new ArrayList<>();
         for (GoodsDTO goods : goodsList
         ) {
             UniqueProperties uniqueProperties = uniquePropertiesService.findByNameAndValueAndType(goods.getPropertyName(), goods.getPropertyValue(), goods.getProductType())
                     .orElseThrow(() -> new NotFoundException("Product type not found"));
+            unique.add(uniqueProperties);
+        }
+        int i = 0;
+        for (GoodsDTO goods : goodsList
+        ) {
             productList.add(Goods.builder()
                     .id(goods.getId())
                     .manufacture(goods.getManufacture())
                     .price(goods.getPrice())
                     .serialNumber(goods.getSerialNumber())
-                    .uniqueProperty(uniqueProperties)
+                    .uniqueProperty(unique.get(i))
                     .stock(goods.getStock())
                     .build());
+            i++;
         }
+        i = 0;
         goodsRepository.saveAll(productList);
-//        goodsList.forEach(goods-> {
-//            try {
-//                save(goods);
-//            } catch (NotFoundException e) {
-//                e.printStackTrace();
-//            }
-//        });
-
     }
 
 
@@ -103,4 +106,8 @@ public class GoodsServiceImpl implements GoodsService {
                 .orElseThrow(() -> new NotFoundException("There is no product with such id"));
         this.save(goods);
     }
+
+//    public static List<UniqueProperties> uniqPropComp(List<GoodsDTO> goodsDTO) {
+//
+//}
 }

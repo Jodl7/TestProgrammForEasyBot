@@ -29,7 +29,7 @@ public class Goods {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "goods_seq")
-    @SequenceGenerator(name = "goods_seq", sequenceName = "seq_goods", allocationSize = 10)
+    @SequenceGenerator(name = "goods_seq", sequenceName = "seq_goods", allocationSize = 1000)
     private Long id;
 
     @Column(unique = true)

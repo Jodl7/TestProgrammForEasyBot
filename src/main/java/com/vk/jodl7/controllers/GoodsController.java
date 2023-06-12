@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -46,5 +47,24 @@ public class GoodsController {
     public ResponseEntity<String> update(@RequestBody @Valid GoodsDTO goodsDTO) throws NotFoundException {
         goodsService.update(goodsDTO);
         return ResponseEntity.status(HttpStatus.OK).body("Product updated");
+    }
+
+    @PostMapping("/create1000")
+    public ResponseEntity<String> createAlot() throws NotFoundException {
+        List<GoodsDTO> goodList = new ArrayList<>();
+        for (int i = 0; i < 1000; i++) {
+            GoodsDTO good = GoodsDTO.builder()
+                    .productType("ноутбук")
+                    .serialNumber(Integer.toString(i))
+                    .manufacture("china")
+                    .price(10.0)
+                    .stock(i)
+                    .propertyName("диагональ ноутбука")
+                    .propertyValue("15\"")
+                    .build();
+            goodList.add(good);
+        }
+        goodsService.saveAll(goodList);
+        return ResponseEntity.status(HttpStatus.OK).body("created");
     }
 }
