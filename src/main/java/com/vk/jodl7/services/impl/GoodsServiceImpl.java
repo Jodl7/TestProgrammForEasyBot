@@ -83,6 +83,7 @@ public class GoodsServiceImpl implements GoodsService {
             propVal.add(goods.getPropertyValue());
             prodType.add(goods.getProductType());
         });
+
         List <UniqueProperties> unique = uniquePropertiesService.findByNameAndValueAndType(propName, propVal, prodType);
 
         List<Goods> result = goodsList.stream()
@@ -96,7 +97,7 @@ public class GoodsServiceImpl implements GoodsService {
                                         unq.getPropertyValue().equals(goodsDTO.getPropertyValue()) &&
                                         unq.getProductType().getType().equals(goodsDTO.getProductType()))
                                 .findFirst()
-                                .orElseThrow())
+                                .orElseThrow(/*() -> new NotFoundException("Unique property: " + goodsDTO.getPropertyName() + " " + goodsDTO.getPropertyValue() + " " + goodsDTO.getProductType() + " not found")*/))
                         .stock(goodsDTO.getStock())
                         .build())
                 .collect(Collectors.toList());
@@ -110,8 +111,4 @@ public class GoodsServiceImpl implements GoodsService {
                 .orElseThrow(() -> new NotFoundException("There is no product with such id"));
         this.save(goods);
     }
-
-//    public static List<UniqueProperties> uniqPropComp(List<GoodsDTO> goodsDTO) {
-//
-//}
 }
